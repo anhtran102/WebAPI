@@ -9,8 +9,8 @@ namespace WebAPI.Models
     {
         public int TaskId { get; set; }
         public int UserId { get; set; }
-        public DateTime AssignedDate { get; set; }
-        public DateTime CompletedDate { get; set; }
+        public DateTime? AssignedDate { get; set; }
+        public DateTime? CompletedDate { get; set; }
         public float SpentHours { get; set; }
         public string Commnet { get; set; }
     }

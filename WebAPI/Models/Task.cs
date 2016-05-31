@@ -11,10 +11,10 @@ namespace WebAPI.Models
     public class AssigmentTask
     {
         public int Id { get; set; }
-        public DateTime CompletedDate { get; set; }
+        public DateTime? CompletedDate { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime DueDate { get; set; }
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
         public string Subject { get; set; }
         public int Status { get; set; }
 //        public int UserId { get; set; }

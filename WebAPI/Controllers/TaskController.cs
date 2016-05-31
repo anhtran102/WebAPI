@@ -20,7 +20,7 @@ namespace WebAPI.Controllers
                 DueDate = new DateTime(2016, 4, 4),
                 StartDate = new DateTime(2016, 1, 7),
                 Status = 1,
-                Subject = "New task",
+                Subject = "Project Task 1",
                 Id = 2                
             },
             new AssigmentTask(){
@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
                 DueDate = new DateTime(2016, 4, 22),
                 StartDate = new DateTime(2016, 4, 7),
                 Status = 1,
-                Subject = "New task2",
+                Subject = "Finish Homework",
                 Id = 1,
             },
             new AssigmentTask(){
@@ -38,7 +38,7 @@ namespace WebAPI.Controllers
                 DueDate = new DateTime(2016, 12, 12),
                 StartDate = new DateTime(2016, 11, 11),
                 Status = 1,
-                Subject = "New task2",
+                Subject = "Selft Study",
                 Id = 3,
             }            
         };
@@ -51,16 +51,34 @@ namespace WebAPI.Controllers
                    UserName = "administrator"
                },
                  new User(){
-                   FirstName = "Anh2",
-                   LastName="Tran2",
+                   FirstName = "Member 2",
+                   LastName="Let",
                    UserId=2,
-                   UserName = "anhtran"
+                   UserName = "user2"
                }
             };
 
         #endregion
 
-        IList<Assignment> Assignments = new List<Assignment>();
+        IList<Assignment> Assignments = new List<Assignment>()
+        {
+            new Assignment(){
+                AssignedDate = DateTime.Now,                
+                TaskId = 1,
+                UserId = 1
+            },   
+            new Assignment(){
+                AssignedDate = DateTime.Now,                
+                TaskId = 1,
+                UserId = 2
+            },
+            new Assignment(){
+                AssignedDate = DateTime.Now,                
+                TaskId = 2,
+                UserId = 1
+            }   
+        };
+
 
         // GET: api/Task\
         /// <summary>
@@ -79,12 +97,11 @@ namespace WebAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Route("{id}")]        
-        [HttpGet]
+        //[Route("{id}")]                
         public AssigmentTask Get(int id)
         {
             return Tasks.Where(t => t.Id == id).FirstOrDefault();
-        }
+        }      
 
         // GET: api/Task/id/users
         /// <summary>
@@ -92,9 +109,9 @@ namespace WebAPI.Controllers
         /// </summary>
         /// <returns></returns>
         //[RouteAttribute("Task/id/user")]
-        [Route("{id}/user/{cid}")]
+        [Route("{id}/user")]
         [HttpGet]
-        public IEnumerable<User> UsersOfTask(int id, int cid)
+        public IEnumerable<User> UsersOfTask(int id)
         {
             var task = Tasks.Where(t => t.Id == id).FirstOrDefault();
             var assigments = Assignments.Where(a => task != null && a.TaskId == task.Id).ToList();
@@ -107,40 +124,24 @@ namespace WebAPI.Controllers
 
             return us;
             
-        }
-
-        // GET: api/Task/id/users
-        /// <summary>
-        /// Get users assigned to task
-        /// </summary>
-        /// <returns></returns>
-        //[RouteAttribute("Task/id/user")]
-        [Route("{id}/user")]
-        [HttpGet]
-        public string UsersOfTask2(int id)
-        {            
-
-            return "jjj";
-
-        }
+        }      
 
         // POST: api/Task
         [HttpPost]
-        public void Post(AssigmentTask task)
-        {
-            var newTask = new AssigmentTask()
+        public AssigmentTask Post(AssigmentTask task)
+        {            
+            if(task!= null)
             {
-                CompletedDate = DateTime.Now.AddDays(19),
-                CreatedDate = DateTime.Now,
-                DueDate = DateTime.Now.AddDays(12),
-                StartDate = DateTime.Now.AddDays(5),
-                Status = 1,
-                Subject = "New task2"
-            };
-
-            newTask.Id = 4;
-            Tasks.Add(newTask);            
-            //return newTask;
+                Tasks.Add(task);
+                task.Id = 4;
+                task.CreatedDate = DateTime.Now;
+                task.CompletedDate = task.DueDate;
+                return task;
+            }
+            else
+            {
+                throw new ArgumentException("Task can not be null");
+            }
         }
 
         // PUT: api/Task/5
@@ -166,17 +167,19 @@ namespace WebAPI.Controllers
             return updateTask;
         }
 
-        // DELETE: api/Task/5
-        [HttpDelete]
-        public void Delete(int id)
+        // DELETE: api/Task/5                
+        public IEnumerable<AssigmentTask> Delete(int id)
         {
             foreach (var item in Tasks)
             {
                 if (item.Id == id)
                 {
                     Tasks.Remove(item);
+                    break;
                 }
             }
+
+            return this.Tasks;
         }
     }
 }
