@@ -9,6 +9,7 @@ using WebAPI.Models;
 namespace WebAPI.Controllers
 {
     [RoutePrefix("api/task")]
+    
     public class TaskController : ApiController
     {
         #region Init
@@ -75,7 +76,7 @@ namespace WebAPI.Controllers
             new Assignment(){
                 AssignedDate = DateTime.Now,                
                 TaskId = 2,
-                UserId = 1
+                UserId = 2
             }   
         };
 
@@ -85,7 +86,7 @@ namespace WebAPI.Controllers
         /// Get task collection
         /// </summary>
         /// <returns></returns>       
-        [HttpGet]
+        [HttpGet]        
         public IEnumerable<AssigmentTask> Get()
         {                        
             return this.Tasks;
