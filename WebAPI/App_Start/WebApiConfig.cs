@@ -27,7 +27,7 @@ namespace WebAPI
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            config.MessageHandlers.Add(new WebAPI.CustomMessageHandler());            
+            //config.MessageHandlers.Add(new WebAPI.CustomMessageHandler());            
         }
     }
 }
